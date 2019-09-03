@@ -9,7 +9,7 @@ containers = page.find_all("div", {"class": "student_container"})
 students = []
 for container in containers:
     info = container.find_all("div", {"class": "student_info"})
-    name = container.find("h5", {"class": "yalehead"}).text,
+    name = container.find("h5", {"class": "yalehead"}).text
     surname, forename = name.split(", ", 1)
     college = info[0].text
     email = info[1].find("a").text
