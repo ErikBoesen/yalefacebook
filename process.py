@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+import csv
 
 with open("page.html", "r", encoding="iso-8859-1") as f:
     print("Parsing into BeautifulSoup")
@@ -31,4 +33,7 @@ for container in containers:
     break
 
 with open("students.csv", "w") as f:
-    writer = csv.writer(f)
+    keys = students.keys()
+    writer = csv.DictWriter(f, keys)
+    writer.writeheader()
+    writer.writerows(students)
