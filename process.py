@@ -19,8 +19,8 @@ for container in containers:
     major = trivia.pop()
     address = "\n".join(trivia)
     students.append({
-        "forename": forename,
-        "surname": surname,
+        "forename": forename.strip(),
+        "surname": surname.strip(),
         "image_id": container.find("div", {"class": "student_img"}).find("img")["src"][len("/facebook/Photo?id="):],
         "year": int(container.find("div", {"class": "student_year"}).text.replace("'", "20")),
         "pronoun": container.find("div", {"class": "student_info_pronoun"}).text,
@@ -29,11 +29,9 @@ for container in containers:
         "major": major,
         "address": address,
     })
-    print(students)
-    break
 
-with open("students.csv", "w") as f:
-    keys = students.keys()
+with open("students.csv", "w", encoding="utf-8") as f:
+    keys = students[0].keys()
     writer = csv.DictWriter(f, keys)
     writer.writeheader()
     writer.writerows(students)
