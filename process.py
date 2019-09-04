@@ -37,6 +37,7 @@ for container in containers:
         "image_id": container.find("div", {"class": "student_img"}).find("img")["src"][len("/facebook/Photo?id="):],
         "year": int(container.find("div", {"class": "student_year"}).text.replace("'", "20")),
         "pronoun": container.find("div", {"class": "student_info_pronoun"}).text,
+        "email": email,
         "room": room,
         "birthday": birthday,
         "major": major,
