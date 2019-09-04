@@ -1,5 +1,8 @@
 from bs4 import BeautifulSoup
 import csv
+import re
+
+RE_BIRTHDAY = re.compile(r"^[A-Z][a-z]{2} \d{1,2}$")
 
 with open("page.html", "r", encoding="iso-8859-1") as f:
     print("Parsing into BeautifulSoup")
@@ -10,14 +13,24 @@ students = []
 for container in containers:
     info = container.find_all("div", {"class": "student_info"})
     name = container.find("h5", {"class": "yalehead"}).text
+    print("Parsing " + name)
     surname, forename = name.split(", ", 1)
     college = info[0].text
-    email = info[1].find("a").text
+    try:
+        email = info[1].find("a").text
+    except AttributeError:
+        email = ""
     trivia = info[1].find_all(text=True, recursive=False)
-    room = trivia.pop(0)
-    birthday = trivia.pop()
-    major = trivia.pop()
-    address = "\n".join(trivia)
+    try:
+        room = trivia.pop(0)
+        birthday = trivia.pop()
+        major = trivia.pop()
+        address = "\n".join(trivia)
+    except IndexError:
+        room = ""
+        birthday = ""
+        major = ""
+        address = ""
     students.append({
         "forename": forename.strip(),
         "surname": surname.strip(),
