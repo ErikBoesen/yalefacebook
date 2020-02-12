@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import re
 import os
+import time
 
 DEBUG = False
 
@@ -12,6 +13,7 @@ headers = {
 
 filename = 'page.html'
 if not os.path.exists(filename):
+    print('Page not cached, fetching...')
     params = {
         'currentIndex': -1,
         'numberToGet': 12,
@@ -29,14 +31,18 @@ if not os.path.exists(filename):
     with open(filename, 'w') as f:
         f.write(page_text)
 else:
+    print('Loading cached page... ', end='')
     with open(filename, 'r') as f:
         page_text = f.read()
+print('done.')
 
 # Parsing page
 
 RE_BIRTHDAY = re.compile(r"^[A-Z][a-z]{2} \d{1,2}$")
 
+print('Building BeautifulSoup tree... ', end='')
 page = BeautifulSoup(page_text, "html.parser")
+print('done.')
 containers = page.find_all("div", {"class": "student_container"})
 students = []
 for container in containers:
