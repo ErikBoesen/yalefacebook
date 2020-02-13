@@ -33,19 +33,19 @@ if not os.path.exists(filename):
     page_text = r.text
     with open(filename, 'w') as f:
         f.write(page_text)
+    print('done.')
 else:
-    print('Loading cached page... ', end='')
     with open(filename, 'r') as f:
+        print('Loading cached page... ', end='')
         page_text = f.read()
-print('done.')
+        print('done.')
 
 # Parsing page
 
 RE_BIRTHDAY = re.compile(r"^[A-Z][a-z]{2} \d{1,2}$")
 
-print('Building BeautifulSoup tree... ', end='')
+print('Building BeautifulSoup tree.')
 page = BeautifulSoup(page_text, "html.parser")
-print('done.')
 containers = page.find_all("div", {"class": "student_container"})
 students = []
 for container in containers:
